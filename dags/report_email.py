@@ -49,6 +49,9 @@ def main(**kwargs):
     message["From"] = email_config.sender
     message["To"] = email_config.receiver
 
+    # Allow white space n tabulate
+    tabulate.PRESERVE_WHITESPACE = True
+
     html = """
     <html>
 
@@ -290,13 +293,13 @@ def main(**kwargs):
                               <br>
 
                               """ + tabulate.tabulate(
-        df_facebook, stralign="center", tablefmt='html') + """
+        df_facebook, stralign="left", tablefmt='html') + """
 
                               <br>
                               <p> Breakdown per PO: </p>
                               <br>
                               """ + tabulate.tabulate(
-        df_facebook_po, stralign="center", tablefmt='html') + """
+        df_facebook_po, stralign="left", tablefmt='html') + """
                               <br>
                               <br>
                               <h3 style='color:rgb(155, 20, 20, .8)'> Google </h3>
@@ -310,7 +313,7 @@ def main(**kwargs):
                               <p> Breakdown per type of campaign: </p>
                               <br>
                               """ + tabulate.tabulate(
-        df_google_search, headers="firstrow", stralign="center", tablefmt='html') + """
+        df_google_search, headers="firstrow", stralign="left", tablefmt='html') + """
                             <br>
                             <br>
                             <h3> Leads per programs: </h3>

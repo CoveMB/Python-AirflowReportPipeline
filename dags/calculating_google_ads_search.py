@@ -24,7 +24,7 @@ def main(**kwargs):
 
     # Replace nampagne name per brand or not brand
     search_result.CampaignName = search_result.CampaignName.apply(
-        lambda x: 'Brand' if 'brand' in x else "Not Brand")
+        lambda x: '| Brand Search' if 'brand' in x else "| Not Brand")
 
     # Create a pivot table to get search cost breakdown
     pivot = pd.pivot_table(
@@ -40,8 +40,8 @@ def main(**kwargs):
     pivot = pivot.drop('All', axis='columns')
 
     # Format
-    pivot['Brand'] = pivot['Brand'].astype(str) + " $"
-    pivot['Not Brand'] = pivot['Not Brand'].astype(str) + " $"
+    pivot['| Brand'] = '| ' + pivot['| Brand'].astype(str) + " $"
+    pivot['| Not Brand'] = '| ' + pivot['| Not Brand'].astype(str) + " $"
 
     pivot.to_csv(LOCAL_DIR + campus_name + '_google_spent_search.csv',
                  header=True, index=False, index_label=False)
