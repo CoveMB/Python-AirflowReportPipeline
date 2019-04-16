@@ -19,6 +19,13 @@ def main(**kwargs):
     # Make sure Cost is the right data type
     df.Cost = df.Cost.astype(int)
 
+    # Format networks
+    df['AdNetworkType1'] = df['AdNetworkType1'].str.replace(
+            "Display Network", "Display").str.replace(
+                    "Search Network", "Search").str.replace(
+                            "Youtube Search", "YouTube").str.replace(
+                                    "YouTube Videos", "YouTube")
+
     # Create a pivo table depending of network type per school
     pivot = pd.pivot_table(
         df, values='Cost', index=['school'], columns=['AdNetworkType1'],
@@ -29,14 +36,14 @@ def main(**kwargs):
 
     # Format
     for i in networks:
-        pivot[i] = pivot[i].astype(str) + " $"
+        pivot[i] = '| ' + pivot[i].astype(str) + " $"
 
-    pivot['All'] = pivot['All'].astype(str) + " $"
+    pivot['All'] = '| ' + pivot['All'].astype(str) + " $"
 
     pivot = pivot[pivot.school != 'All']
 
     # Drop columns containing no data
-    pivot = pivot.loc[:, (pivot != '0 $').any(axis=0)]
+    pivot = pivot.loc[:, (pivot != '| 0$').any(axis=0)]
 
     # Save in new file
     pivot.to_csv(LOCAL_DIR + campus_name + '_google_spent_per_network.csv',

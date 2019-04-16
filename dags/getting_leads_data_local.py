@@ -19,11 +19,20 @@ def main(**kwargs):
     # Isolating campuses if multiple campus in one report
     if campus_name == "LaSalle" or campus_name == "InterDec":
         if campus_name == "LaSalle":
-            campus_name = ["LaSalle College", "LaSalle College Laval"]
+            # Format schools
+            df["Latest Campus of Interest"] = df["Latest Campus of Interest"].str.replace(
+                "LaSalle College", "CL Montreal").str.replace(
+                    "LaSalle College Laval", "CL Laval")
+
+            campus_name = ["CL Montreal", "CL Laval", "E-learning"]
 
         elif campus_name == "InterDec":
-            campus_name = ["Inter-Dec College Montréal",
-                           "Inter-Dec College Laval"]
+            # Format schools
+            df["Latest Campus of Interest"] = df["Latest Campus of Interest"].str.replace(
+                "Inter-Dec College Montréal", "CID Montreal").str.replace(
+                    "Inter-Dec College Laval", "CID Laval")
+
+            campus_name = ["CID Montreal", "CID Laval"]
 
         # Isoalating paid media source
         leads = df.loc[df['Latest Campus of Interest'].isin(campus_name)]
@@ -38,6 +47,7 @@ def main(**kwargs):
     # Original campus name
     campus_name = source["campus"]
 
+    # Save it
     leads.to_csv(LOCAL_DIR + campus_name + '_last_week_leads.csv', index=False)
 
 

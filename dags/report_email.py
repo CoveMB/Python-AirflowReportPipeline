@@ -174,7 +174,7 @@ def main(**kwargs):
 
     <body>
       <div style=''>
-        <div style='Margin:0px auto;max-width:600px;'>
+        <div style='Margin:0px auto;max-width:800px;'>
           <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='width:100%;'>
             <tbody>
               <tr>
@@ -193,7 +193,7 @@ def main(**kwargs):
           </table>
         </div>
 
-        <div style='Margin:0px auto;max-width:600px;'>
+        <div style='Margin:0px auto;max-width:800px;'>
           <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='width:100%;'>
             <tbody>
               <tr>
@@ -224,7 +224,7 @@ def main(**kwargs):
             </tbody>
           </table>
         </div>
-        <div style='Margin:0px auto;max-width:600px;'>
+        <div style='Margin:0px auto;max-width:800px;'>
           <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='width:100%;'>
             <tbody>
               <tr>
@@ -243,7 +243,7 @@ def main(**kwargs):
             </tbody>
           </table>
         </div>
-        <div style='Margin:0px auto;max-width:600px;'>
+        <div style='Margin:0px auto;max-width:800px;'>
           <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='width:100%;'>
             <tbody>
               <tr>
@@ -275,7 +275,7 @@ def main(**kwargs):
           </table>
         </div>
 
-        <div style='Margin:0px auto;max-width:600px;'>
+        <div style='Margin:0px auto;max-width:800px;'>
           <table align='center' border='0' cellpadding='0' cellspacing='0' role='presentation' style='width:100%;'>
             <tbody>
               <tr>
@@ -307,7 +307,7 @@ def main(**kwargs):
                               <p> Last week """ + campus_name + """ spent on Google per network: </p>
                               <br>
                               """ + tabulate.tabulate(
-        df_google_network, headers="firstrow", stralign="center", tablefmt='html') + """
+        df_google_network, headers="firstrow", stralign="left", tablefmt='html') + """
                               <br>
                               <br>
                               <p> Breakdown per type of campaign: </p>
@@ -319,7 +319,7 @@ def main(**kwargs):
                             <h3> Leads per programs: </h3>
                             <br>
          """ + tabulate.tabulate(
-        df_leads, headers="firstrow", tablefmt='html') + """
+        df_leads, headers="firstrow", stralign="left", tablefmt='html') + """
                           </div>
                         </td>
                       </tr>

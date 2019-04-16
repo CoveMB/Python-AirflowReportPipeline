@@ -25,8 +25,13 @@ def main(**kwargs):
         aggfunc=lambda x: len(x.unique()), fill_value=0,
         margins=True).reset_index()
 
+    # Create pivot
     pivot = pivot.sort_values(by=['Latest Campus of Interest',
                                   'Program Choice 1'], ascending=False)
+
+    # Format columns name
+    pivot.columns = ['Program Choice', 'Campus', 'Facebook',
+                     'Google', "All"]
 
     # Save result
     pivot.to_csv(

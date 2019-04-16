@@ -27,18 +27,13 @@ def main(**kwargs):
         aggfunc=np.sum, fill_value=0,).reset_index()
 
     # Format the spend column
-    pivot['spend'] = ": " + pivot['spend'].astype(str) + " $"
+    pivot['spend'] = ": " + pivot['spend'].astype(str) + "$"
 
     pivot.to_csv(LOCAL_DIR + campus_name + '_facebook_data_calculated.csv',
                  header=True, index=False, index_label=False)
 
     # Calculate spent for Mtl campus
     if campus_name == "InterDec" or campus_name == "LaSalle":
-        #
-        # # Create separator
-        # separator = pd.DataFrame({
-        #     "school": ["Last week spent per PO"],
-        #     "spend": ["---------"]})
 
         # Create a new pivot table for per PO breakdown
         po_pivot = pd.pivot_table(df, values='spend',
@@ -48,13 +43,7 @@ def main(**kwargs):
         po_pivot.columns = ["school", "spend"]
 
         # Format it
-        po_pivot['spend'] = ": " + po_pivot['spend'].astype(str) + " $"
-
-        # Create final output
-        # spent = pivot.append(separator, ignore_index=True).append(
-        #     po_pivot, ignore_index=True).reset_index()
-
-        # spent = spent.drop(columns=['index'])
+        po_pivot['spend'] = ": " + po_pivot['spend'].astype(str) + "$"
 
         # Save the result
         po_pivot.to_csv(LOCAL_DIR + campus_name +
