@@ -30,8 +30,13 @@ def main(**kwargs):
                                   'Program Choice 1'], ascending=False)
 
     # Format columns name
-    pivot.columns = ['Program Choice', 'Campus', 'Facebook',
-                     'Google', "All"]
+    pivot.columns = ['Program Choice', 'Campus', '| Facebook',
+                     '| Google', "| All"]
+
+    # Format table for email
+    pivot['| Facebook'] = pivot['| Facebook'].astype(str) + "|"
+    pivot['| Google'] = pivot['| Google'].astype(str) + "|"
+    pivot["| All"] = pivot["| All"].astype(str) + "|"
 
     # Save result
     pivot.to_csv(
