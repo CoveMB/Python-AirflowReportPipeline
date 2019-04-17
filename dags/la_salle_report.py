@@ -2,11 +2,11 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.postgres_operator import PostgresOperator
+from airflow.operators.big_query_plugin import BigQueryOperatorLoadCSV
 from datetime import timedelta, datetime
 
 import fetching_facebook_data as fetching
 import cleanning_facebook_data as cleanning
-import load_data_bigquery as loading
 import calculating_facebook_data as calculating_facebook
 import query_bq_google_ads as quering
 import calculating_google_ads_network as calculating_network
@@ -14,6 +14,9 @@ import calculating_google_ads_search as calculating_search
 import getting_leads_data_local as getting_leads
 import calculating_last_week_leads as calculating_leads
 import report_email as email
+
+campus_name = "LaSalle"
+LOCAL_DIR = '/tmp/'
 
 
 # Init workflow passing campus name via xcoms
@@ -47,10 +50,14 @@ with DAG('la_salle_report', start_date=datetime.today(), schedule_interval="@dai
         python_callable=cleanning.main,
         provide_context=True)
 
-    load_data_bigquery_task = PythonOperator(
+    load_data_bigquery_task = BigQueryOperatorLoadCSV(
         task_id="load_data_bigquery_task",
-        python_callable=loading.main,
-        provide_context=True)
+        dataset_id="FacebookAirflowPipelineWeekly",
+        table_id=campus_name + "FacebookData",
+        write_disposition='WRITE_TRUNCATE',
+        file_name=campus_name + '_facebook_data_cleaned',
+        directory=LOCAL_DIR,
+        )
 
     calculatinfg_facebook_data_for_report_task = PythonOperator(
         task_id="calculatinfg_facebook_data_for_report_task",

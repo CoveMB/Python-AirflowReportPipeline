@@ -34,6 +34,8 @@ def main(**kwargs):
                      '| Google', "| All"]
 
     # Format table for email
+    pivot['Campus'] = pivot['Campus'].astype(str) + "|"
+    pivot['Program Choice'] = pivot['Program Choice'].astype(str) + "|"
     pivot['| Facebook'] = pivot['| Facebook'].astype(str) + "|"
     pivot['| Google'] = pivot['| Google'].astype(str) + "|"
     pivot["| All"] = pivot["| All"].astype(str) + "|"

@@ -319,7 +319,7 @@ def main(**kwargs):
                             <h3> Leads per programs: </h3>
                             <br>
          """ + tabulate.tabulate(
-        df_leads, headers="firstrow", stralign="left", tablefmt='html') + """
+        df_leads, headers="firstrow", stralign="right", tablefmt='html') + """
                           </div>
                         </td>
                       </tr>
