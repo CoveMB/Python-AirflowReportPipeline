@@ -1,4 +1,7 @@
+import os
 import json
+from google.cloud import bigquery
+from google.oauth2 import service_account
 from airflow.hooks.base_hook import BaseHook
 
 LOCAL_DIR = '/tmp/'
@@ -19,3 +22,21 @@ class BigQueryHook(BaseHook):
 
         with open(LOCAL_DIR + 'big_query.json', 'w') as fp:
             json.dump(credentials, fp)
+
+    def get_client():
+
+        client = bigquery.Client.from_service_account_json(
+            LOCAL_DIR + 'big_query.json')
+
+        os.remove(LOCAL_DIR + 'big_query.json')
+
+        return client
+
+    def get_credentials():
+
+        credentials = service_account.Credentials.from_service_account_file(
+            LOCAL_DIR + 'big_query.json',)
+
+        os.remove(LOCAL_DIR + 'big_query.json')
+
+        return credentials

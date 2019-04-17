@@ -1,5 +1,3 @@
-
-from google.oauth2 import service_account
 import pandas_gbq as pd_gbq
 import pandas as pd
 from airflow.hooks.big_query_plugin import BigQueryHook
@@ -16,11 +14,8 @@ def main(**kwargs):
 
     campus_name = source["campus"]
 
-    # Connect to Big Query
     client = BigQueryHook()
-
-    credentials = service_account.Credentials.from_service_account_file(
-        LOCAL_DIR + 'big_query.json',)
+    credentials = client.get_credentials()
 
     bq_project_id = client.project_id
 

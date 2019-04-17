@@ -21,10 +21,10 @@ def main(**kwargs):
 
     # Format networks
     df['AdNetworkType1'] = df['AdNetworkType1'].str.replace(
-            "Display Network", "Display").str.replace(
-                    "Search Network", "Search").str.replace(
-                            "Youtube Search", "YouTube").str.replace(
-                                    "YouTube Videos", "YouTube")
+        "Display Network", "Display").str.replace(
+        "Search Network", "Search").str.replace(
+        "YouTube Search", "YouTube").str.replace(
+        "YouTube Videos", "YouTube")
 
     # Create a pivo table depending of network type per school
     pivot = pd.pivot_table(
@@ -36,9 +36,9 @@ def main(**kwargs):
 
     # Format
     for i in networks:
-        pivot[i] = '| ' + pivot[i].astype(str) + " $"
+        pivot[i] = '| ' + pivot[i].astype(str) + "$"
 
-    pivot['All'] = '| ' + pivot['All'].astype(str) + " $"
+    pivot['All'] = '| ' + pivot['All'].astype(str) + "$"
 
     pivot = pivot[pivot.school != 'All']
 

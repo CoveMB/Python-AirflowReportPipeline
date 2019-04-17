@@ -40,8 +40,8 @@ def main(**kwargs):
     pivot = pivot.drop('All', axis='columns')
 
     # Format
-    pivot['| Brand'] = '| ' + pivot['| Brand'].astype(str) + " $"
-    pivot['| Not Brand'] = '| ' + pivot['| Not Brand'].astype(str) + " $"
+    pivot['| Brand Search'] = '| ' + pivot['| Brand Search'].astype(str) + "$"
+    pivot['| Not Brand'] = '| ' + pivot['| Not Brand'].astype(str) + "$"
 
     pivot.to_csv(LOCAL_DIR + campus_name + '_google_spent_search.csv',
                  header=True, index=False, index_label=False)

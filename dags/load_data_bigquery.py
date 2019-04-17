@@ -1,4 +1,3 @@
-import os
 from google.cloud import bigquery
 from airflow.hooks.big_query_plugin import BigQueryHook
 
@@ -19,12 +18,7 @@ def main(**kwargs):
     table_id = campus_name + "FacebookData"
 
     # Establish connection
-    client = BigQueryHook()
-
-    client = bigquery.Client.from_service_account_json(
-        LOCAL_DIR + 'big_query.json')
-
-    os.remove(LOCAL_DIR + 'big_query.json')
+    client = BigQueryHook.get_client()
 
     dataset_ref = client.dataset(dataset_id)
     table_ref = dataset_ref.table(table_id)
