@@ -1,5 +1,5 @@
 from google.cloud import bigquery
-from big_query_plugin.hooks.big_query_hook import BigQueryHook
+from google_plugin.hooks.google_hook import GoogleHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
@@ -14,7 +14,7 @@ class BigQueryOperatorLoadCSV(BaseOperator):
                  table_id=None,
                  autodetect=True,
                  write_disposition='WRITE_EMPTY',
-                 big_query_conn_id='big_query_default',
+                 google_conn_id='big_query_default',
                  file_name=None,
                  skip_leading_rows=1,
                  directory='data/',
@@ -25,7 +25,7 @@ class BigQueryOperatorLoadCSV(BaseOperator):
         self.table_id = table_id
         self.autodetect = autodetect
         self.write_disposition = write_disposition
-        self.big_query_conn_id = big_query_conn_id
+        self.google_conn_id = google_conn_id
         self.file_name = file_name
         self.skip_leading_rows = skip_leading_rows
         self.directory = directory
@@ -34,7 +34,7 @@ class BigQueryOperatorLoadCSV(BaseOperator):
     def execute(self, context):
 
         # Create client
-        hook = BigQueryHook(type='client')
+        hook = GoogleHook(google_conn_id=self.google_conn_id, type='client')
 
         dataset_ref = hook.client.dataset(self.dataset_id)
         table_ref = dataset_ref.table(self.table_id)

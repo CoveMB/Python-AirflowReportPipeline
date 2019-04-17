@@ -1,6 +1,6 @@
 import pandas_gbq as pd_gbq
 import pandas as pd
-from airflow.hooks.big_query_plugin import BigQueryHook
+from airflow.hooks.google_plugin import GoogleHook
 
 LOCAL_DIR = '/tmp/'
 
@@ -14,7 +14,7 @@ def main(**kwargs):
 
     campus_name = source["campus"]
 
-    hook = BigQueryHook(type='credentials')
+    hook = GoogleHook(google_conn_id='big_query_default', type='credentials')
     credentials = hook.credentials
 
     bq_project_id = hook.project_id

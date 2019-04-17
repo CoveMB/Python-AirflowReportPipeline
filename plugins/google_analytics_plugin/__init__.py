@@ -1,11 +1,11 @@
 from airflow.plugins_manager import AirflowPlugin
-from google_analytics_plugin.hooks.google_analytics_hook import GoogleAnalyticsHook
+from google_analytics_plugin.operators.google_analytics_operator import GAOperator
 
 
 class GoogleAnalyticsPlugin(AirflowPlugin):
     name = "google_analytics_plugin"
-    hooks = [GoogleAnalyticsHook]
-    operators = []
+    hooks = []
+    operators = [GAOperator]
     executors = []
     macros = []
     admin_views = []
