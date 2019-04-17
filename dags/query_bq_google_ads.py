@@ -14,10 +14,10 @@ def main(**kwargs):
 
     campus_name = source["campus"]
 
-    client = BigQueryHook()
-    credentials = client.get_credentials()
+    hook = BigQueryHook(type='credentials')
+    credentials = hook.credentials
 
-    bq_project_id = client.project_id
+    bq_project_id = hook.project_id
 
     # SQL query
     sql = (
