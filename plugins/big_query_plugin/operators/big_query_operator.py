@@ -1,6 +1,5 @@
-import os
 from google.cloud import bigquery
-from big_query_plugin.hooks.big_query_hook import BigQueryHook
+from google_plugin.hooks.google_hook import GoogleHook
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
@@ -15,7 +14,7 @@ class BigQueryOperatorLoadCSV(BaseOperator):
                  table_id=None,
                  autodetect=True,
                  write_disposition='WRITE_EMPTY',
-                 big_query_conn_id='big_query_default',
+                 google_conn_id='big_query_default',
                  file_name=None,
                  skip_leading_rows=1,
                  directory='data/',
@@ -26,7 +25,7 @@ class BigQueryOperatorLoadCSV(BaseOperator):
         self.table_id = table_id
         self.autodetect = autodetect
         self.write_disposition = write_disposition
-        self.big_query_conn_id = big_query_conn_id
+        self.google_conn_id = google_conn_id
         self.file_name = file_name
         self.skip_leading_rows = skip_leading_rows
         self.directory = directory
@@ -35,14 +34,9 @@ class BigQueryOperatorLoadCSV(BaseOperator):
     def execute(self, context):
 
         # Create client
-        client = BigQueryHook()
+        hook = GoogleHook(google_conn_id=self.google_conn_id, type='client')
 
-        client = bigquery.Client.from_service_account_json(
-            LOCAL_DIR + 'big_query.json')
-
-        os.remove(LOCAL_DIR + 'big_query.json')
-
-        dataset_ref = client.dataset(self.dataset_id)
+        dataset_ref = hook.client.dataset(self.dataset_id)
         table_ref = dataset_ref.table(self.table_id)
         job_config = bigquery.LoadJobConfig()
 
@@ -58,7 +52,7 @@ class BigQueryOperatorLoadCSV(BaseOperator):
         with open(
                 self.directory + self.file_name + '.csv',
                 'rb') as source_file:
-            job = client.load_table_from_file(
+            job = hook.client.load_table_from_file(
                 source_file,
                 table_ref,
                 location='US',  # Must match the destination dataset location.
