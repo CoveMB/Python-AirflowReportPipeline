@@ -22,23 +22,9 @@ before_install:
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - docker-compose -f docker-compose-LocalExecutor.yml up
+  # - docker-compose -f docker-compose-LocalExecutor.yml up
 
 services:
-  postgres:
-    ports:
-      - "5433:5432"
-    environment:
-      - POSTGRES_USER=airflow
-      - POSTGRES_PASSWORD=airflow
-      - POSTGRES_DB=airflow
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U airflow"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
-
-
   webserver:
     container_name: airflow
       image: bjmrq/airflow-reportpipeline
