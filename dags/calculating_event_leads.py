@@ -17,7 +17,12 @@ def main(**kwargs):
         LOCAL_DIR + campus_name + '_last_week_leads.csv', index_col=False)
 
     if len(df.event.unique()) < 2:
-        return False
+
+        event = {
+            "event": "false"
+            }
+
+        return event
 
     event = pd.pivot_table(
         df,
@@ -35,7 +40,11 @@ def main(**kwargs):
         LOCAL_DIR + campus_name + '_last_week_event_leads.csv',
         index=False)
 
-    return True
+    event = {
+        "event": "true"
+        }
+
+    return event
 
 
 if __name__ == '__main__':

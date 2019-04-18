@@ -16,15 +16,13 @@ def main(**kwargs):
     source = ti.xcom_pull(
         task_ids="report_init_task")
 
+    source2 = ti.xcom_pull(
+        task_ids="calculating_event_leads_task")
+
     campus_name = source["campus"]
     image = source["image"]
 
-    # Retrieve if event from Xcom
-    ti2 = kwargs["ti"]
-    source2 = ti2.xcom_pull(
-        task_ids="calculating_event_task")
-
-    is_event = source2
+    is_event = source2["event"]
 
     # Gather the reports
     df_facebook = pd.read_csv(
@@ -43,14 +41,14 @@ def main(**kwargs):
         LOCAL_DIR + campus_name + '_last_week_leads_calculated.csv',
         header=-1, index_col=False)
 
-    if is_event:
+    if is_event == "true":
         df_event = pd.read_csv(
             LOCAL_DIR + campus_name + '_last_week_event_leads.csv',
-                            header=-1, index_col=False)
+            header=-1, index_col=False)
 
     else:
-        df_event =''
 
+        df_event = ''
 
     # Get date
     today = datetime.today()
@@ -225,7 +223,7 @@ def main(**kwargs):
                                 <td style='width:550px;'>
 
                                   <img height='auto' src=""" + str(image) + """ style='border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;'
-                                    width='550' />
+                                    width='700' />
 
                                 </td>
                               </tr>
