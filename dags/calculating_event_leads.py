@@ -16,14 +16,17 @@ def main(**kwargs):
     df = pd.read_csv(
         LOCAL_DIR + campus_name + '_last_week_leads.csv', index_col=False)
 
+    # Determine if there is an event
     if len(df.event.unique()) < 2:
 
+        # If not return no event status
         event = {
             "event": "false"
             }
 
         return event
 
+    # If yes create pivot table to get number of registered
     event = pd.pivot_table(
         df,
         values='E-mail 1',
@@ -36,10 +39,12 @@ def main(**kwargs):
 
     event = event.drop('All', axis='columns')
 
+    # Save it
     event.to_csv(
         LOCAL_DIR + campus_name + '_last_week_event_leads.csv',
         index=False)
 
+    # return event status
     event = {
         "event": "true"
         }
