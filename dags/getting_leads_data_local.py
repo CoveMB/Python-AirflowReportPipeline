@@ -14,7 +14,7 @@ def main(**kwargs):
     campus_name = source["campus"]
 
     # Make it a dataframe
-    df = pd.read_csv(DATA_DIR + 'last_week_mtl_leads.csv')
+    df = pd.read_csv(DATA_DIR + 'all_last_week_leads.csv')
 
     # Isolating campuses if multiple campus in one report
     if campus_name == "LaSalle" or campus_name == "InterDec":
