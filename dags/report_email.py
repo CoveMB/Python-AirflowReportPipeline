@@ -368,7 +368,13 @@ def main(**kwargs):
 
     os.remove(LOCAL_DIR + campus_name + '_google_spent_search.csv')
 
+    os.remove(LOCAL_DIR + campus_name + '_last_week_leads.csv')
+
     os.remove(LOCAL_DIR + campus_name + '_last_week_leads_calculated.csv')
+
+    if is_event == "true":
+
+        os.remove(LOCAL_DIR + campus_name + '_last_week_event_leads.csv')
 
 
 if __name__ == '__main__':
