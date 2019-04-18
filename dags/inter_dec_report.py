@@ -103,7 +103,7 @@ with DAG('inter_dec_report', start_date=datetime.today(), schedule_interval="@da
     delete_xcom_task = PostgresOperator(
         task_id='delete_xcom_task',
         postgres_conn_id='airflow_db',
-        sql="delete from xcom where dag_id='inter_dec_report' and task_id='report_init_task'",
+        sql="delete from xcom where dag_id='la_salle_report' and task_id='report_init_task' or task_id='calculating_event_leads_task'",
         dag=dag)
 
     report_init_task >> fetching_facebook_data_task
