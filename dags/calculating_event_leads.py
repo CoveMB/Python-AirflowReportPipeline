@@ -19,11 +19,24 @@ def main(**kwargs):
     if len(df.event.unique()) < 2:
         return False
 
+    event = pd.pivot_table(
+        df,
+        values='E-mail 1',
+        index=['event'],
+        columns=['GA Source'],
+        aggfunc=lambda x: len(
+                x.unique()), fill_value=0, margins=True).reset_index()
+
+    event = event[event.event != 'All']
+
+    event = event.drop('All', axis='columns')
 
     event.to_csv(
         LOCAL_DIR + campus_name + '_last_week_event_leads.csv',
         index=False)
 
+    return True
+
 
 if __name__ == '__main__':
-main()
+    main()

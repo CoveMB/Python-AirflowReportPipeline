@@ -12,7 +12,7 @@ class TestLaSalleReportDAG(unittest.TestCase):
         """Check task count of la_salle_report dag"""
         dag_id = 'la_salle_report'
         dag = self.dagbag.get_dag(dag_id)
-        self.assertEqual(len(dag.tasks), 12)
+        self.assertEqual(len(dag.tasks), 13)
 
     def test_contain_tasks(self):
         """Check task contains in la_salle_report dag"""
@@ -31,6 +31,7 @@ class TestLaSalleReportDAG(unittest.TestCase):
             'calculating_google_ads_search_task',
             'getting_leads_data_task',
             'calculating_leads_last_week_task',
+            'calculating_event_leads_task',
             'send_report_email_task',
             'delete_xcom_task'])
 

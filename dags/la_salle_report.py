@@ -13,6 +13,7 @@ import calculating_google_ads_network as calculating_network
 import calculating_google_ads_search as calculating_search
 import getting_leads_data_local as getting_leads
 import calculating_last_week_leads as calculating_leads
+import calculating_event_leads as calculating_event
 import report_email as email
 
 campus_name = "LaSalle"
@@ -89,6 +90,11 @@ with DAG('la_salle_report', start_date=datetime.today(), schedule_interval="@dai
         python_callable=calculating_leads.main,
         provide_context=True)
 
+    calculating_event_leads_task = PythonOperator(
+        task_id="calculating_event_leads_task",
+        python_callable=calculating_event.main,
+        provide_context=True)
+
     send_report_email_task = PythonOperator(
         task_id="send_report_email_task",
         python_callable=email.main,
@@ -109,6 +115,6 @@ with DAG('la_salle_report', start_date=datetime.today(), schedule_interval="@dai
     query_bq_google_ads_task >> calculating_google_ads_network_task >> send_report_email_task
     query_bq_google_ads_task >> calculating_google_ads_search_task >> send_report_email_task
 
-    getting_leads_data_task >> calculating_leads_last_week_task >> send_report_email_task
+    getting_leads_data_task >> calculating_leads_last_week_task >> calculating_event_leads_task >> send_report_email_task
 
     send_report_email_task >> delete_xcom_task
