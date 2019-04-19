@@ -18,11 +18,14 @@ before_install:
   - docker ps
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
+  - docker image pull postgres
 
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
   - docker-compose -f docker-compose-LocalExecutorTravis.yml up -d
+  - sleep 15
 
 script:
+  - sleep 15
   - python -m unittest discover tests
