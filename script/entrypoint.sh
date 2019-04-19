@@ -17,12 +17,6 @@ TRY_LOOP="20"
 
 : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
 
-if [ "${Travis}" = "Travis" ]; then
-  python -m unittest discover tests
-else
-  echo "Not a job for Travis"
-fi
-
 # Install custom python package if requirements.txt is present
 # if [ -e "/requirements.txt" ]; then
 #     $(which pip) install --user -r /requirements.txt
@@ -69,8 +63,9 @@ export \
 
 sleep 10
 
+${EXECUTOR:-Sequential}
 
-if [ "${Travis}" = "Travis" ]; then
+if [ "${TAVIS}" = "Travis" ]; then
   airflow initdb
   sleep 10
   python -m unittest discover tests
