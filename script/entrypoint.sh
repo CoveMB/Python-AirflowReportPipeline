@@ -14,7 +14,7 @@ TRY_LOOP="20"
 
 # Defaults and back-compat
 : "${AIRFLOW__CORE__FERNET_KEY:=${FERNET_KEY:=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")}}"
-# : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
+: "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
 
 # Install custom python package if requirements.txt is present
 # if [ -e "/requirements.txt" ]; then
@@ -41,16 +41,16 @@ wait_for_port() {
   done
 }
 
-# if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
-#   AIRFLOW__CORE__SQL_ALCHEMY_CONN="postgresql+psycopg2://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
-#   AIRFLOW__CELERY__RESULT_BACKEND="db+postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
-#   wait_for_port "Postgres" "$POSTGRES_HOST" "$POSTGRES_PORT"
-# fi
+if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
+  AIRFLOW__CORE__SQL_ALCHEMY_CONN="postgresql+psycopg2://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
+  AIRFLOW__CELERY__RESULT_BACKEND="db+postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB"
+  wait_for_port "Postgres" "$POSTGRES_HOST" "$POSTGRES_PORT"
+fi
 
-# if [ "$AIRFLOW__CORE__EXECUTOR" = "CeleryExecutor" ]; then
-#   AIRFLOW__CELERY__BROKER_URL="redis://$REDIS_PREFIX$REDIS_HOST:$REDIS_PORT/1"
-#   wait_for_port "Redis" "$REDIS_HOST" "$REDIS_PORT"
-# fi
+if [ "$AIRFLOW__CORE__EXECUTOR" = "CeleryExecutor" ]; then
+  AIRFLOW__CELERY__BROKER_URL="redis://$REDIS_PREFIX$REDIS_HOST:$REDIS_PORT/1"
+  wait_for_port "Redis" "$REDIS_HOST" "$REDIS_PORT"
+fi
 
 export \
   AIRFLOW__CELERY__BROKER_URL \

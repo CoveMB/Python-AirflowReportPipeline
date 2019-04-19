@@ -25,7 +25,6 @@ install:
   - pip install -r requirements.txt
   - docker-compose -f docker-compose-LocalExecutorTravis.yml up -d
   - sleep 30
-  - docker exec -it airflow /bin/bash
 
 script:
   - sleep 30
