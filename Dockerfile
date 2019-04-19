@@ -93,6 +93,7 @@ RUN chmod +x /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 COPY dags ${AIRFLOW_HOME}/dags/
 COPY plugins ${AIRFLOW_HOME}/plugins/
+COPY pgdata ${AIRFLOW_HOME}/pgdata/
 COPY tests ${AIRFLOW_HOME}/tests/
 
 RUN chown -R airflow: ${AIRFLOW_HOME}
