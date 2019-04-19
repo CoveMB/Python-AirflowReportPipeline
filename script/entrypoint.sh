@@ -62,6 +62,7 @@ export \
   AIRFLOW__CELERY__BROKER_URL \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
+printenv
 
 sleep 10
 
