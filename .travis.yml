@@ -24,8 +24,9 @@ install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
   - docker-compose -f docker-compose-LocalExecutorTravis.yml up -d
-  - sleep 15
+  - sleep 30
+  - docker exec -it airflow /bin/bash
 
 script:
-  - sleep 15
+  - sleep 30
   - python -m unittest discover tests
