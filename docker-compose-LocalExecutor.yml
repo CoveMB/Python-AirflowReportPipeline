@@ -24,6 +24,7 @@ services:
         environment:
           - LOAD_EX=n
           - EXECUTOR=Local
+        volumes:
           - ./dags:/usr/local/airflow/dags
           - ./plugins:/usr/local/airflow/plugins
           - ./tests:/usr/local/airflow/tests
