@@ -18,14 +18,31 @@ before_install:
   - docker ps
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
-  - docker image pull postgres
+
+before_script:
+  - psql -c 'create database airflow;' -U postgres
 
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  - docker-compose -f docker-compose-LocalExecutorTravis.yml up -d
-  - sleep 30
+
+services:
+  - postgresql
+  webserver:
+      container_name: airflow
+      image: bjmrq/airflow-reportpipeline
+      restart: always
+      environment:
+        - LOAD_EX=n
+        - EXECUTOR=Local
+      ports:
+        - "8080:8080"
+      command: webserver
+      healthcheck:
+        test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+        interval: 60s
+        timeout: 60s
+        retries: 3
 
 script:
-  - sleep 30
   - python -m unittest discover tests
