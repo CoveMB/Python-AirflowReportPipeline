@@ -61,7 +61,6 @@ export \
   AIRFLOW__CELERY__BROKER_URL \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
-sleep 10
 
 if [ "$TAVIS" = "Travis" ]; then
   airflow initdb
