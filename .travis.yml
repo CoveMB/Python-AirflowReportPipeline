@@ -22,10 +22,10 @@ before_install:
   - docker ps
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
-  - docker-compose -f docker-compose-LocalExecutor.yml up -d
+  - docker-compose -f docker-compose-LocalExecutor.yml up
 
-before_script:
-    - airflow initdb
+# before_script:
+#     - airflow initdb
     # If using postgresql service from Travis CI
 #   - psql -c 'create database airflow;' -U postgres
 
@@ -33,5 +33,5 @@ before_script:
 #   - postgresql
 #   - docker
 
-script:
-  - python -m unittest discover tests
+# script:
+#   - python -m unittest discover tests
