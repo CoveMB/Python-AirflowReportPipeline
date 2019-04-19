@@ -18,14 +18,10 @@ before_install:
   - docker ps
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
-  - docker container run --rm --name airflow -p 8080:8080 --detach  bjmrq/airflow-reportpipeline
+  - docker-compose -f docker-compose-LocalExecutor.yml run
 
 before_script:
   - psql -c 'create database airflow;' -U postgres
-
-install:
-  - pip install --upgrade pip
-  - pip install -r requirements.txt
 
 services:
   - postgresql
