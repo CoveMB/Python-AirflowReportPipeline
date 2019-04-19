@@ -97,10 +97,11 @@ COPY tests ${AIRFLOW_HOME}/tests/
 
 RUN chown -R airflow: ${AIRFLOW_HOME}
 
-EXPOSE 8080 5555 8793 465 5432
+EXPOSE 8080 5555 8793 465 5432 6379
 
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-CMD ["webserver"] # set default arg for entrypoint
+
+CMD export CONF_listener__port=$PORT && echo CONF_listener__port && webserver
