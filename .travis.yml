@@ -22,46 +22,7 @@ before_install:
 install:
   - pip install --upgrade pip
   - pip install -r requirements.txt
-  # - docker-compose -f docker-compose-LocalExecutor.yml up
-
-services:
-    postgres:
-        container_name: postgres
-        image: postgres:11
-        ports:
-          - 5432:5432
-        environment:
-          - POSTGRES_USER="$POSTGRES_USER"
-          - POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
-          - POSTGRES_DB="$POSTGRES_DB"
-        healthcheck:
-          test: ["CMD-SHELL", "pg_isready -U airflow"]
-          interval: 10s
-          timeout: 5s
-          retries: 5
-
-    webserver:
-        container_name: airflow
-        image: bjmrq/airflow-reportpipeline
-        restart: always
-        depends_on:
-          - postgres
-        environment:
-          - LOAD_EX=n
-          - EXECUTOR=Local
-        volumes:
-          - ./dags:/usr/local/airflow/dags
-          - ./plugins:/usr/local/airflow/plugins
-          - ./tests:/usr/local/airflow/tests
-          - ./data:/usr/local/airflow/data
-        ports:
-          - "8080:8080"
-        command: webserver
-        healthcheck:
-          test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
-          interval: 60s
-          timeout: 60s
-          retries: 3
+  - docker-compose -f docker-compose-LocalExecutorTravis.yml up -d
 
 script:
   - python -m unittest discover tests
