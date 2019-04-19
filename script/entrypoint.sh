@@ -63,9 +63,7 @@ export \
 
 sleep 10
 
-${EXECUTOR:-Sequential}
-
-if [ "${TAVIS}" = "Travis" ]; then
+if [ "$TAVIS" = "Travis" ]; then
   airflow initdb
   sleep 10
   python -m unittest discover tests
