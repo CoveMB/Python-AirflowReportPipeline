@@ -24,6 +24,8 @@ services:
         environment:
           - LOAD_EX=n
           - EXECUTOR=Local
+          - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@$POSTGRES_HOST:5432/airflow
+          - AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://airflow:airflow@$POSTGRES_HOST:5432/airflow
         ports:
           - "8080:8080"
         command: webserver
