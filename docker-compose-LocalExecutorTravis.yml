@@ -24,7 +24,7 @@ services:
         environment:
           - LOAD_EX=n
           - EXECUTOR=Local
-          - TRAVIS=Travis
+          - AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=
         ports:
           - "8080:8080"
         command: webserver
