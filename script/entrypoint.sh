@@ -12,14 +12,16 @@ TRY_LOOP="20"
 : "${POSTGRES_PASSWORD:="airflow"}"
 : "${POSTGRES_DB:="airflow"}"
 
-if [ "${Travis}" = "Travis" ]; then
-  echo "This is a job for Travis"
-else
-  echo "Not a job for Travis"
-fi
-# : "${AIRFLOW__CORE__FERNET_KEY:=${FERNET_KEY:=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")}}"
+: "${FERNET_KEY:=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")}"
+: "${AIRFLOW__CORE__FERNET_KEY:=${FERNET_KEY}}"
 
 : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
+
+if [ "${Travis}" != "Travis" ]; then
+  echo "This is not a job for Travis"
+else
+  echo "Definitly a job for Travis"
+fi
 
 # Install custom python package if requirements.txt is present
 # if [ -e "/requirements.txt" ]; then
