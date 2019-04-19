@@ -15,6 +15,7 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
   - sudo service postgresql stop
+  - sudo update-rc.d postgresql disable
   # wait for postgresql to shutdown
   - while sudo lsof -Pi :5432 -sTCP:LISTEN -t; do sleep 1; done
   - docker-compose --version
@@ -23,12 +24,13 @@ before_install:
   - docker image pull bjmrq/airflow-reportpipeline
   - docker-compose -f docker-compose-LocalExecutor.yml up -d
 
-before_script:
-  - psql -c 'create database airflow;' -U postgres
+# If using postgresql service from Travis CI
+# before_script:
+#   - psql -c 'create database airflow;' -U postgres
 
-services:
-  - postgresql
-  - docker
+# services:
+#   - postgresql
+#   - docker
 
 script:
   - python -m unittest discover tests
