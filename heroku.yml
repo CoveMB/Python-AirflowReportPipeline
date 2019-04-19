@@ -2,15 +2,6 @@ setup:
   addons:
     - plan: heroku-postgresql
       as: DATABASE
-      environment:
-        - POSTGRES_USER=airflow
-        - POSTGRES_PASSWORD=airflow
-        - POSTGRES_DB=airflow
-      healthcheck:
-        test: ["CMD-SHELL", "pg_isready -U airflow"]
-        interval: 10s
-        timeout: 5s
-        retries: 5
 
 build:
   docker:
