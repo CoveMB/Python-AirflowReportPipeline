@@ -103,4 +103,4 @@ USER airflow
 WORKDIR ${AIRFLOW_HOME}
 
 ENTRYPOINT ["sh", "/entrypoint.sh"]
-CMD export CONF_listener__port=$PORT && echo CONF_listener__port && ["webserver"]
+CMD ["webserver"] # set default arg for entrypoint
