@@ -78,15 +78,13 @@ else
   case "$1" in
     webserver)
       airflow initdb
-      sleep 20
+      sleep 10
       python -m unittest discover tests
-      sleep 20
+      sleep 10
       if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ]; then
         # With the "Local" executor it should all run in one container.
         airflow scheduler &
       fi
-      python -m unittest discover tests
-      sleep 20
       exec airflow webserver
       ;;
     worker|scheduler)
