@@ -62,7 +62,7 @@ export \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
 
-if [ "$TAVIS" = "Travis" ]; then
+if [ "$TRAVIS" = "Travis" ]; then
   airflow initdb
   sleep 10
   python -m unittest discover tests
