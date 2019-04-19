@@ -14,6 +14,9 @@ TRY_LOOP="20"
 
 if [ "${Travis}" = "Travis" ]; then
   echo "This is a job for Travis"
+else
+  echo "Not a job for Travis"
+fi
 # : "${AIRFLOW__CORE__FERNET_KEY:=${FERNET_KEY:=$(python -c "from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)")}}"
 
 : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
@@ -56,9 +59,9 @@ fi
 
 export \
   AIRFLOW__CORE__EXECUTOR \
+  AIRFLOW__CORE__SQL_ALCHEMY_CONN \
   AIRFLOW__CORE__FERNET_KEY \
   FERNET_KEY \
-  AIRFLOW__CORE__SQL_ALCHEMY_CONN \
   AIRFLOW__CELERY__BROKER_URL \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
