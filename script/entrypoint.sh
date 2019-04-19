@@ -17,10 +17,10 @@ TRY_LOOP="20"
 
 : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
 
-if [ "${Travis}" != "Travis" ]; then
-  echo "This is not a job for Travis"
+if [ "${Travis}" = "Travis" ]; then
+  python -m unittest discover tests
 else
-  echo "Definitly a job for Travis"
+  echo "Not a job for Travis"
 fi
 
 # Install custom python package if requirements.txt is present
@@ -67,41 +67,41 @@ export \
   AIRFLOW__CELERY__BROKER_URL \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
-printenv
-
 sleep 10
 
-echo "
-Next steps:
--> run python -c 'from cryptography.fernet import Fernet; FERNET_KEY = Fernet.generate_key().decode(); print(FERNET_KEY)''
 
--> export AIRFLOW__CORE__FERNET_KEY=
-"
-
-case "$1" in
-  webserver)
-    airflow initdb
-    sleep 10
-    if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ]; then
-      # With the "Local" executor it should all run in one container.
-      airflow scheduler &
-    fi
-    exec airflow webserver
-    ;;
-  worker|scheduler)
-    # To give the webserver time to run initdb.
-    sleep 10
-    exec airflow "$@"
-    ;;
-  flower)
-    sleep 10
-    exec airflow "$@"
-    ;;
-  version)
-    exec airflow "$@"
-    ;;
-  *)
-    # The command is something like bash, not an airflow subcommand. Just run it in the right environment.
-    exec "$@"
-    ;;
-esac
+if [ "${Travis}" = "Travis" ]; then
+  python -m unittest discover tests
+else
+  case "$1" in
+    webserver)
+      airflow initdb
+      sleep 10
+      python -m unittest discover tests
+      sleep 600
+      if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ]; then
+        # With the "Local" executor it should all run in one container.
+        airflow scheduler &
+      fi
+      python -m unittest discover tests
+      sleep 600
+      exec airflow webserver
+      ;;
+    worker|scheduler)
+      # To give the webserver time to run initdb.
+      sleep 10
+      exec airflow "$@"
+      ;;
+    flower)
+      sleep 10
+      exec airflow "$@"
+      ;;
+    version)
+      exec airflow "$@"
+      ;;
+    *)
+      # The command is something like bash, not an airflow subcommand. Just run it in the right environment.
+      exec "$@"
+      ;;
+  esac
+fi
