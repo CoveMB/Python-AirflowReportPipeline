@@ -18,7 +18,6 @@ services:
     webserver:
         container_name: airflow
         image: bjmrq/airflow-reportpipeline
-        restart: always
         depends_on:
           - postgres
         environment:
