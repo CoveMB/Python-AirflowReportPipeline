@@ -63,25 +63,25 @@ export \
 
 echo "${HEY}"
 
-if [ ${HEY}="hey" ]; then
+if [ ${TRAVIS} ]; then
   echo "yes 1"
 else
     'nop 1'
 fi
 
-if [ "${HEY}"="hey" ]; then
+if [ "${TRAVIS}"="hey" ]; then
   echo "yes 2"
 else
     'nop 2'
 fi
 
-if [ "${HEY}" ]; then
+if [ "${TRAVIS}"="Travis" ]; then
   echo "yes 3"
 else
     'nop 3'
 fi
 
-if [ ${HEY} ]; then
+if [ "${Travis}" ]; then
   echo "yes 4"
 else
     'nop 4'
