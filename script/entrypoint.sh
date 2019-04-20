@@ -64,6 +64,7 @@ export \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
 if [ "${TRAVIS}"="Travis" ]; then
+  echo "This is a job for Travis"
   airflow initdb
   sleep 10
   python -m unittest discover tests
