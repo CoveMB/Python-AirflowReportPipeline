@@ -63,7 +63,9 @@ if [ ${TRAVIS} ]; then
 
   case "$1" in
     webserver)
-      sleep 60
+    airflow initdb
+    sleep 10
+    python -m unittest discover tests
   esac
 
 else
