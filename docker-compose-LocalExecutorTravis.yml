@@ -24,9 +24,6 @@ services:
           - TRAVIS=Travis
           - LOAD_EX=n
           - EXECUTOR=Local
-          - AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=
-          - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://
-          - AIRFLOW__CELERY__RESULT_BACKEND=db+postgresql://
         ports:
           - "8080:8080"
         command: webserver

@@ -53,13 +53,14 @@ if [ "$AIRFLOW__CORE__EXECUTOR" = "CeleryExecutor" ]; then
   wait_for_port "Redis" "$REDIS_HOST" "$REDIS_PORT"
 fi
 
-if [ ${TRAVIS} ]; then
+export \
+  AIRFLOW__CORE__EXECUTOR \
+  AIRFLOW__CORE__SQL_ALCHEMY_CONN \
+  AIRFLOW__CORE__FERNET_KEY \
+  AIRFLOW__CELERY__BROKER_URL \
+  AIRFLOW__CELERY__RESULT_BACKEND \
 
-  export \
-    AIRFLOW__CORE__EXECUTOR \
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN \
-    AIRFLOW__CELERY__RESULT_BACKEND \
-    AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=\
+if [ ${TRAVIS} ]; then
 
   case "$1" in
     webserver)
@@ -69,14 +70,6 @@ if [ ${TRAVIS} ]; then
   esac
 
 else
-
-  export \
-    AIRFLOW__CORE__EXECUTOR \
-    AIRFLOW__CORE__SQL_ALCHEMY_CONN \
-    AIRFLOW__CORE__FERNET_KEY \
-    FERNET_KEY \
-    AIRFLOW__CELERY__BROKER_URL \
-    AIRFLOW__CELERY__RESULT_BACKEND \
 
   case "$1" in
     webserver)

@@ -23,16 +23,5 @@ before_install:
   - docker image pull bjmrq/airflow-reportpipeline
   - docker ps
 
-# before_script:
-#     - export AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=
-#     # - psql -c 'create database airflow;' -U postgres
-#     - airflow initdb
-
-# services:
-#   - postgresql
-#   - docker
-
 script:
   - docker-compose -f docker-compose-LocalExecutorTravis.yml up --abort-on-container-exit --exit-code-from webserver
-# after_script:
-#   - docker-compose down
