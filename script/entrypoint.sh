@@ -53,22 +53,29 @@ if [ "$AIRFLOW__CORE__EXECUTOR" = "CeleryExecutor" ]; then
   wait_for_port "Redis" "$REDIS_HOST" "$REDIS_PORT"
 fi
 
-export \
-  AIRFLOW__CORE__EXECUTOR \
-  AIRFLOW__CORE__SQL_ALCHEMY_CONN \
-  AIRFLOW__CORE__FERNET_KEY \
-  FERNET_KEY \
-  AIRFLOW__CELERY__BROKER_URL \
-  AIRFLOW__CELERY__RESULT_BACKEND \
-
 if [ ${TRAVIS} ]; then
+
+  export \
+    AIRFLOW__CORE__EXECUTOR \
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN \
+    AIRFLOW__CELERY__RESULT_BACKEND \
+    AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=\
+
   case "$1" in
     webserver)
-      airflow initdb
-      sleep 10
-      python -m unittest discover tests
+      sleep 60
   esac
+
 else
+
+  export \
+    AIRFLOW__CORE__EXECUTOR \
+    AIRFLOW__CORE__SQL_ALCHEMY_CONN \
+    AIRFLOW__CORE__FERNET_KEY \
+    FERNET_KEY \
+    AIRFLOW__CELERY__BROKER_URL \
+    AIRFLOW__CELERY__RESULT_BACKEND \
+
   case "$1" in
     webserver)
       airflow initdb

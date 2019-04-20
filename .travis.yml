@@ -21,12 +21,13 @@ before_install:
   - docker-compose --version
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
+  - docker-compose -f docker-compose-LocalExecutorTravis.yml up
   - docker ps
 
 before_script:
-    # - export AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=
-    # - airflow initdb
-    # - sleep 10
+    - export AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=
+    - airflow initdb
+    - sleep 10
   #   If using postgresql service from Travis CI
   # - psql -c 'create database airflow;' -U postgres
 
@@ -35,4 +36,4 @@ before_script:
 #   - docker
 
 script:
-  - docker-compose -f docker-compose-LocalExecutorTravis.yml up
+  - python -m unittest discover tests
