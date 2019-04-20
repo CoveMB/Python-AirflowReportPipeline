@@ -61,6 +61,31 @@ export \
   AIRFLOW__CELERY__BROKER_URL \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
+echo "${HEY}"
+
+if [ ${HEY}="hey" ]; then
+  echo "yes 1"
+else
+    'nop 1'
+fi
+
+if [ "${HEY}"="hey" ]; then
+  echo "yes 2"
+else
+    'nop 2'
+fi
+
+if [ "${HEY}" ]; then
+  echo "yes 3"
+else
+    'nop 3'
+fi
+
+if [ ${HEY} ]; then
+  echo "yes 4"
+else
+    'nop 4'
+fi
 
 case "$1" in
   webserver)
