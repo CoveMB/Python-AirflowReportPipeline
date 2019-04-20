@@ -22,7 +22,7 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
   - docker ps
-  - docker-compose -f docker-compose-LocalExecutor.yml up \
+  - docker-compose -f docker-compose-LocalExecutorTravis.yml up \
     --abort-on-container-exit \
     --exit-code-from service-test
 
