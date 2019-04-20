@@ -17,8 +17,6 @@ TRY_LOOP="20"
 
 : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
 
-: "${TRAVIS:=${TRAVIS}}"
-
 # Install custom python package if requirements.txt is present
 # if [ -e "/requirements.txt" ]; then
 #     $(which pip) install --user -r /requirements.txt
@@ -63,38 +61,33 @@ export \
   AIRFLOW__CELERY__BROKER_URL \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
-if [ "${TRAVIS}"="Travis" ]; then
-  airflow initdb
-  sleep 10
-  python -m unittest discover tests
-else
-  case "$1" in
-    webserver)
-      airflow initdb
-      sleep 10
-      python -m unittest discover tests
-      sleep 10
-      if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ]; then
-        # With the "Local" executor it should all run in one container.
-        airflow scheduler &
-      fi
-      exec airflow webserver
-      ;;
-    worker|scheduler)
-      # To give the webserver time to run initdb.
-      sleep 10
-      exec airflow "$@"
-      ;;
-    flower)
-      sleep 10
-      exec airflow "$@"
-      ;;
-    version)
-      exec airflow "$@"
-      ;;
-    *)
-      # The command is something like bash, not an airflow subcommand. Just run it in the right environment.
-      exec "$@"
-      ;;
-  esac
-fi
+
+case "$1" in
+  webserver)
+    airflow initdb
+    sleep 10
+    python -m unittest discover tests
+    sleep 10
+    if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ]; then
+      # With the "Local" executor it should all run in one container.
+      airflow scheduler &
+    fi
+    exec airflow webserver
+    ;;
+  worker|scheduler)
+    # To give the webserver time to run initdb.
+    sleep 10
+    exec airflow "$@"
+    ;;
+  flower)
+    sleep 10
+    exec airflow "$@"
+    ;;
+  version)
+    exec airflow "$@"
+    ;;
+  *)
+    # The command is something like bash, not an airflow subcommand. Just run it in the right environment.
+    exec "$@"
+    ;;
+esac
