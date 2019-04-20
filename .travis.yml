@@ -22,7 +22,6 @@ before_install:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker image pull bjmrq/airflow-reportpipeline
   - docker ps
-  - docker-compose -f docker-compose-LocalExecutorTravis.yml up --abort-on-container-exit --exit-code-from webserver
 
 # before_script:
 #     - export AIRFLOW__CORE__FERNET_KEY=uvFKCAi7qaHGm0eUjUiEWqTNa3LGI-UH_PFL3ta0iZ8=
@@ -33,8 +32,7 @@ before_install:
 #   - postgresql
 #   - docker
 
-# script:
-#   - python -m unittest discover tests
-#
+script:
+  - docker-compose -f docker-compose-LocalExecutorTravis.yml up --abort-on-container-exit --exit-code-from webserver
 # after_script:
 #   - docker-compose down
