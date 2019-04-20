@@ -35,4 +35,4 @@ before_script:
 #   - docker
 
 script:
-  - docker-compose -f docker-compose-LocalExecutor.yml up
+  - docker-compose -f docker-compose-LocalExecutorTravis.yml up

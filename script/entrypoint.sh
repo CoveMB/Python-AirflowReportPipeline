@@ -62,9 +62,12 @@ export \
   AIRFLOW__CELERY__RESULT_BACKEND \
 
 if [ ${TRAVIS} ]; then
-  airflow initdb
-  sleep 10
-  python -m unittest discover tests
+  case "$1" in
+    webserver)
+      airflow initdb
+      sleep 10
+      python -m unittest discover tests
+  esac
 else
   case "$1" in
     webserver)
