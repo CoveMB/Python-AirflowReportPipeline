@@ -1,1 +1,1 @@
-web: airflow webserver -p $PORT
+web: airflow initdb
