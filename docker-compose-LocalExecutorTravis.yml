@@ -15,7 +15,7 @@ services:
           timeout: 5s
           retries: 5
 
-    webserver:
+    test:
         container_name: airflow
         image: bjmrq/airflow-reportpipeline
         depends_on:
@@ -26,7 +26,7 @@ services:
           - EXECUTOR=Local
         ports:
           - "8080:8080"
-        command: webserver
+        command: test
         healthcheck:
           test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
           interval: 60s
