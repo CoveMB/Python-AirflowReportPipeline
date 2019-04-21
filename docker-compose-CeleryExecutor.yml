@@ -1,14 +1,17 @@
 version: '2.1'
 services:
     rabbitmq:
-        image: 'rabbitmq'
+        container_name: rabbitmq
+        image: rabbitmq
         ports:
-          - 15672:15672
+          - 5672:5672
         environment:
-          - RABBITMQ_USER=admin
+          - RABBITMQ_DEFAULT_USER=admin
           - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_DEFAULT_PASS=rabbitmq
 
     postgres:
+        container_name: postgres
         image: postgres:9.6
         ports:
           - 5432:5432
@@ -39,6 +42,9 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
+          - RABBITMQ_DEFAULT_USER=admin
+          - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_DEFAULT_PASS=rabbitmq
           - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
@@ -67,6 +73,9 @@ services:
             - rabbitmq
         environment:
             - EXECUTOR=Celery
+            - RABBITMQ_DEFAULT_USER=admin
+            - RABBITMQ_HOST=rabbitmq
+            - RABBITMQ_DEFAULT_PASS=rabbitmq
             - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         ports:
             - "5555:5555"
@@ -84,6 +93,9 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
+          - RABBITMQ_DEFAULT_USER=admin
+          - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_DEFAULT_PASS=rabbitmq
           - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
@@ -104,6 +116,9 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
+          - RABBITMQ_DEFAULT_USER=admin
+          - RABBITMQ_HOST=rabbitmq
+          - RABBITMQ_DEFAULT_PASS=rabbitmq
           - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
