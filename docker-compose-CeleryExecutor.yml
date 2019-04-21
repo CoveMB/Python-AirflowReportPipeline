@@ -9,6 +9,11 @@ services:
           - RABBITMQ_DEFAULT_USER=admin
           - RABBITMQ_HOST=rabbitmq
           - RABBITMQ_DEFAULT_PASS=rabbitmq
+        healthcheck:
+          test: ["CMD", "rabbitmqctl", "status"]
+          interval: 5s
+          timeout: 5s
+          retries: 5
 
     postgres:
         container_name: postgres

@@ -7,8 +7,6 @@ TRY_LOOP="20"
 : "${RABBITMQ_PORT:="5672"}"
 : "${RABBITMQ_DEFAULT_PASS:="rabbitmq"}"
 
-admin:rabbitmq@localhost/
-
 : "${POSTGRES_HOST:="postgres"}"
 : "${POSTGRES_PORT:="5432"}"
 : "${POSTGRES_USER:="airflow"}"
