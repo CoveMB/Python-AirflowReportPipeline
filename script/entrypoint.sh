@@ -2,10 +2,9 @@
 
 TRY_LOOP="20"
 
-: "${RABBITMQ_HOST:="rabbitmq"}"
-: "${RABBITMQ_PORT:="5672"}"
-: "${RABBITMQ_CREDS:="airflow:airflow"}"
-: "${RABBITMQ_DEFAULT_USER:="airflow"}"
+: "${REDIS_HOST:="redis"}"
+: "${REDIS_PORT:="6379"}"
+: "${REDIS_PASSWORD:=""}"
 
 : "${POSTGRES_HOST:="postgres"}"
 : "${POSTGRES_PORT:="5432"}"
@@ -17,6 +16,12 @@ TRY_LOOP="20"
 : "${AIRFLOW__CORE__FERNET_KEY:=${FERNET_KEY}}"
 
 : "${AIRFLOW__CORE__EXECUTOR:=${EXECUTOR:-Sequential}Executor}"
+
+if [ -n "$REDIS_PASSWORD" ]; then
+    REDIS_PREFIX=:${REDIS_PASSWORD}@
+else
+    REDIS_PREFIX=
+fi
 
 # Install custom python package if requirements.txt is present
 # if [ -e "/requirements.txt" ]; then
@@ -44,8 +49,8 @@ if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
 fi
 
 if [ "$AIRFLOW__CORE__EXECUTOR" = "CeleryExecutor" ]; then
-  AIRFLOW__CELERY__BROKER_URL="amqp://$RABBITMQ_CREDS@$RABBITMQ_HOST:RABBITMQ_PORT/$RABBITMQ_DEFAULT_USER"
-  wait_for_port "RabbitMQ" "$RABBITMQ_HOST" "$RABBITMQ_PORT"
+  AIRFLOW__CELERY__BROKER_URL="redis://$REDIS_PREFIX$REDIS_HOST:$REDIS_PORT/1"
+  wait_for_port "Redis" "$REDIS_HOST" "$REDIS_PORT"
 fi
 
 export \

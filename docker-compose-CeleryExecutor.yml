@@ -1,20 +1,8 @@
 version: '2.1'
 services:
-    rabbitmq:
-        container_name: rabbitmq
-        image: rabbitmq:3-management
-        ports:
-            - "15672:15672"
-            - "5672:5672"
-        environment:
-            - RABBITMQ_DEFAULT_USER=airflow
-            - RABBITMQ_DEFAULT_PASS=airflow
-            - RABBITMQ_DEFAULT_VHOST=airflow
-        healthcheck:
-          test: ["CMD", "rabbitmqctl", "status"]
-          interval: 5s
-          timeout: 5s
-          retries: 5
+    redis:
+        container_name: redis
+        image: 'redis:3.2.7'
 
     postgres:
         container_name: postgres
@@ -41,16 +29,14 @@ services:
         restart: always
         depends_on:
           - postgres
-          - rabbitmq
+          - redis
         environment:
           - LOAD_EX=n
           - EXECUTOR=Celery
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
-          - RABBITMQ_DEFAULT_USER=admin
-          - RABBITMQ_HOST=rabbitmq
-          - RABBITMQ_DEFAULT_PASS=rabbitmq
+          - REDIS_PASSWORD=redispass
           - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
@@ -66,22 +52,15 @@ services:
           timeout: 60s
           retries: 3
 
-            # - POSTGRES_USER=airflow
-            # - POSTGRES_PASSWORD=airflow
-            # - POSTGRES_DB=airflow
-            # - REDIS_PASSWORD=redispass
-
     flower:
         container_name: flower
         image: bjmrq/airflow-reportpipeline
         restart: always
         depends_on:
-            - rabbitmq
+            - redis
         environment:
             - EXECUTOR=Celery
-            - RABBITMQ_DEFAULT_USER=admin
-            - RABBITMQ_HOST=rabbitmq
-            - RABBITMQ_DEFAULT_PASS=rabbitmq
+            - REDIS_PASSWORD=redispass
             - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         ports:
             - "5555:5555"
@@ -99,9 +78,7 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
-          - RABBITMQ_DEFAULT_USER=admin
-          - RABBITMQ_HOST=rabbitmq
-          - RABBITMQ_DEFAULT_PASS=rabbitmq
+          - REDIS_PASSWORD=redispass
           - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
@@ -122,9 +99,7 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
-          - RABBITMQ_DEFAULT_USER=admin
-          - RABBITMQ_HOST=rabbitmq
-          - RABBITMQ_DEFAULT_PASS=rabbitmq
+          - REDIS_PASSWORD=redispass
           - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
