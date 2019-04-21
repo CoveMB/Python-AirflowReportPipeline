@@ -39,6 +39,7 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
+          - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
           - ./plugins:/usr/local/airflow/plugins
@@ -66,6 +67,7 @@ services:
             - rabbitmq
         environment:
             - EXECUTOR=Celery
+            - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         ports:
             - "5555:5555"
         command: flower
@@ -82,6 +84,7 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
+          - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
           - ./plugins:/usr/local/airflow/plugins
@@ -101,6 +104,7 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
+          - FERNET_KEY=8HI5iPy4iQWPoABO6C7ECKXMCxKlDdCGG45dnHlMzdA=
         volumes:
           - ./dags:/usr/local/airflow/dags
           - ./plugins:/usr/local/airflow/plugins
