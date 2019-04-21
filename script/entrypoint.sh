@@ -4,7 +4,7 @@ TRY_LOOP="20"
 
 : "${REDIS_HOST:="redis"}"
 : "${REDIS_PORT:="6379"}"
-: "${REDIS_PASSWORD:=""}"
+: "${REDIS_PASSWORD:="airflow"}"
 
 : "${POSTGRES_HOST:="postgres"}"
 : "${POSTGRES_PORT:="5432"}"
