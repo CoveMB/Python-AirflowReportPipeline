@@ -24,4 +24,4 @@ before_install:
   - docker ps
 
 script:
-  - docker-compose -f docker-compose-LocalExecutorTravis.yml up --abort-on-container-exit --exit-code-from webserver
+  - docker-compose -f docker-compose-LocalExecutorTravis.yml up --abort-on-container-exit --exit-code-from test

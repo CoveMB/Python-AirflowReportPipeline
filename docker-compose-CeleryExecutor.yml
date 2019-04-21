@@ -2,6 +2,11 @@ version: '2.1'
 services:
     rabbitmq:
         image: 'rabbitmq'
+        ports:
+          - 15672:15672
+        environment:
+          - RABBITMQ_USER=admin
+          - RABBITMQ_HOST=rabbitmq
 
     postgres:
         image: postgres:9.6
@@ -54,20 +59,19 @@ services:
             # - REDIS_PASSWORD=redispass
 
     flower:
-        ontainer_name: flower
+        container_name: flower
         image: bjmrq/airflow-reportpipeline
         restart: always
         depends_on:
             - rabbitmq
         environment:
             - EXECUTOR=Celery
-            # - REDIS_PASSWORD=redispass
         ports:
             - "5555:5555"
         command: flower
 
     scheduler:
-        ontainer_name: scheduler
+        container_name: scheduler
         image: bjmrq/airflow-reportpipeline
         restart: always
         depends_on:
@@ -78,7 +82,6 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
-            # - REDIS_PASSWORD=redispass
         volumes:
           - ./dags:/usr/local/airflow/dags
           - ./plugins:/usr/local/airflow/plugins
@@ -87,7 +90,8 @@ services:
         command: scheduler
 
     worker:
-        image: puckel/docker-airflow:1.10.2
+        container_name: worker
+        image: bjmrq/airflow-reportpipeline
         restart: always
         depends_on:
             - scheduler
@@ -97,7 +101,6 @@ services:
           - POSTGRES_USER=airflow
           - POSTGRES_PASSWORD=airflow
           - POSTGRES_DB=airflow
-            # - REDIS_PASSWORD=redispass
         volumes:
           - ./dags:/usr/local/airflow/dags
           - ./plugins:/usr/local/airflow/plugins
