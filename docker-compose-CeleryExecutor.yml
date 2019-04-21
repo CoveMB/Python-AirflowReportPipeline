@@ -2,13 +2,14 @@ version: '2.1'
 services:
     rabbitmq:
         container_name: rabbitmq
-        image: rabbitmq
+        image: rabbitmq:3-management
         ports:
-          - 5672:5672
+            - "15672:15672"
+            - "5672:5672"
         environment:
-          - RABBITMQ_DEFAULT_USER=admin
-          - RABBITMQ_HOST=rabbitmq
-          - RABBITMQ_DEFAULT_PASS=rabbitmq
+            - RABBITMQ_DEFAULT_USER=airflow
+            - RABBITMQ_DEFAULT_PASS=airflow
+            - RABBITMQ_DEFAULT_VHOST=airflow
         healthcheck:
           test: ["CMD", "rabbitmqctl", "status"]
           interval: 5s

@@ -2,10 +2,10 @@
 
 TRY_LOOP="20"
 
-: "${RABBITMQ_DEFAULT_USER:="admin"}"
 : "${RABBITMQ_HOST:="rabbitmq"}"
 : "${RABBITMQ_PORT:="5672"}"
-: "${RABBITMQ_DEFAULT_PASS:="rabbitmq"}"
+: "${RABBITMQ_CREDS:="airflow:airflow"}"
+: "${RABBITMQ_DEFAULT_USER:="airflow"}"
 
 : "${POSTGRES_HOST:="postgres"}"
 : "${POSTGRES_PORT:="5432"}"
@@ -44,7 +44,7 @@ if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
 fi
 
 if [ "$AIRFLOW__CORE__EXECUTOR" = "CeleryExecutor" ]; then
-  AIRFLOW__CELERY__BROKER_URL="pyamqp://$RABBITMQ_DEFAULT_USER:$RABBITMQ_DEFAULT_PASS@$RABBITMQ_PORT/"
+  AIRFLOW__CELERY__BROKER_URL="amqp://$RABBITMQ_CREDS@$RABBITMQ_HOST:RABBITMQ_PORT/$RABBITMQ_DEFAULT_USER"
   wait_for_port "RabbitMQ" "$RABBITMQ_HOST" "$RABBITMQ_PORT"
 fi
 
