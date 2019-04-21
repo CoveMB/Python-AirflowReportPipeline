@@ -33,7 +33,7 @@ wait_for_port() {
       exit 1
     fi
     echo "$(date) - waiting for $name... $j/$TRY_LOOP"
-    sleep 5
+    sleep 20
   done
 }
 
