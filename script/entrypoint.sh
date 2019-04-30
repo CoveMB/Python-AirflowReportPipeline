@@ -63,7 +63,6 @@ export \
 case "$1" in
   webserver)
     airflow initdb
-    python -m unittest discover tests
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ]; then
       # With the "Local" executor it should all run in one container.
       airflow scheduler &
