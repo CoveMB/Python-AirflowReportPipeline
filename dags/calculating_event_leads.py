@@ -30,7 +30,7 @@ def main(**kwargs):
     event = pd.pivot_table(
         df,
         values='E-mail 1',
-        index=['event'],
+        index=['Lead Source Detail'],
         columns=['GA Source'],
         aggfunc=lambda x: len(
                 x.unique()), fill_value=0, margins=True).reset_index()
