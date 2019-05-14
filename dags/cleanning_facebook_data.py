@@ -74,7 +74,7 @@ def main(**kwargs):
     clean.to_csv(LOCAL_DIR + campus_name + '_facebook_data_cleaned.csv',
                  header=True, index=False, index_label=False)
 
-    os.remove(LOCAL_DIR + campus_name + '_facebook_data.csv')
+    # os.remove(LOCAL_DIR + campus_name + '_facebook_data.csv')
 
 
 if __name__ == '__main__':
